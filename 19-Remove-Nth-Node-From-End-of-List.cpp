@@ -1,24 +1,35 @@
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ListNode* dummy = new ListNode(0);
-        dummy->next = head;
-        ListNode* first = dummy;
-        ListNode* second = dummy;
+        ListNode *slow = head;
+        ListNode *fast = head;
 
-        for (int i = 0; i <= n; ++i) {
-            first = first->next;
+        // Move fast pointer 'n' steps ahead
+        for(int i=0; i<n; i++){
+            fast = fast->next;
         }
 
-        while (first != nullptr) {
-            first = first->next;
-            second = second->next;
+        // Handle special case: deletion of head node
+        if(fast == NULL){
+            ListNode *ans = head->next;
+            delete(head);
+            return ans;
         }
 
-        ListNode* temp = second->next;
-        second->next = second->next->next;
-        delete temp;
+        // Move both pointers until fast reaches the end
+        while(fast && fast->next){
+            slow = slow->next;
+            fast = fast->next;
+        }
 
-        return dummy->next;
+        // Remove the nth node from the end
+        ListNode *delNode = slow->next;
+        slow->next = slow->next->next;
+
+        // Delete the node
+        delete(delNode);
+
+        // Return the head of modified list
+        return head;
     }
 };
