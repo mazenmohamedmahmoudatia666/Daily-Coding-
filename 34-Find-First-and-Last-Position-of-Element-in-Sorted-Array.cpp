@@ -1,3 +1,5 @@
+//https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
+
 #include<iostream>
 #include<vector>
 #include<algorithm>
@@ -8,41 +10,38 @@ using namespace std;
 class Solution {
 public:
 	int BSfindFirst(vector<int> &nums, int val) {
-		int start = 0, end = (int) nums.size() - 1;
+		int start = 0, end = (int) nums.size() - 1, position = -1;
 
-		while (start < end) {
+		while (start <= end) {
 			int mid = start + (end - start) / 2;
 			if (nums[mid] < val)
 				start = mid + 1;
 			else if (nums[mid] > val)
 				end = mid - 1;
 			else
-				end = mid;
+				end = mid - 1, position = mid;	// Find smaller in left
 		}
-        if(start < 0 || start >= (int)nums.size())
-            return -1;
-		return nums[start] == val? start : -1;
+		return position;
 	}
 
 	int BSfindLast(vector<int> &nums, int val) {
-		int start = 0, end = (int) nums.size() - 1;
+		int start = 0, end = (int) nums.size() - 1, position = -1;
 
-		while (start < end) {
-			int mid = start + (end - start + 1) / 2;
+		while (start <= end) {
+			int mid = start + (end - start) / 2;
 			if (nums[mid] < val)
 				start = mid + 1;
 			else if (nums[mid] > val)
 				end = mid - 1;
 			else
-				start = mid;
+				position = mid, start = mid + 1;	// Find higher in right
 		}
-        if(start < 0 || start >= (int)nums.size())
-            return -1;
-		return nums[start] == val? start : -1;
+		return position;
 	}
 
 	vector<int> searchRange(vector<int> &nums, int target) {
 		return {BSfindFirst(nums, target), BSfindLast(nums, target), };
 	}
 };
+
 
