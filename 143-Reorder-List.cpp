@@ -1,38 +1,22 @@
 class Solution {
 public:
     void reorderList(ListNode* head) {
-        if (!head || !head->next || !head->next->next)
-            return;
 
-        // Step 1: Find the middle of the list
-        ListNode* slow = head;
-        ListNode* fast = head;
-        while (fast->next && fast->next->next) {
-            slow = slow->next;
-            fast = fast->next->next;
-        }
 
-        // Step 2: Reverse the second half of the list
-        ListNode* prev = nullptr;
-        ListNode* curr = slow->next;
-        while (curr) {
-            ListNode* nextNode = curr->next;
-            curr->next = prev;
-            prev = curr;
-            curr = nextNode;
-        }
-        slow->next = nullptr;
+        //base Case
+        if(head == NULL || head->next == NULL || head->next->next == NULL) return;
 
-        // Step 3: Merge the first and reversed second halves
-        ListNode* first = head;
-        ListNode* second = prev;
-        while (second) {
-            ListNode* nextFirst = first->next;
-            ListNode* nextSecond = second->next;
-            first->next = second;
-            second->next = nextFirst;
-            first = nextFirst;
-            second = nextSecond;
+        // traverse to the 2nd last node node of Linked list
+        ListNode*prev_tail = head;
+        while(prev_tail->next->next){
+            prev_tail = prev_tail->next;
         }
+        
+        // 1->2->3->4->5->NULL
+        prev_tail->next->next = head->next; // 1  2->3->4->5->2
+        head->next = prev_tail->next;       // 1->5->2->3->4
+        prev_tail->next = NULL;             // 1->5->2->3->4->NULL
+
+        reorderList(head->next->next);
     }
 };
