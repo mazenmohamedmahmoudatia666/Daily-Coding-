@@ -1,3 +1,13 @@
+//  so focus mazen 
+// in this problem we will start with first array and find the smallest and biggest element ;
+// then we will compare these two element with second array and so on ;
+// the compare will be like that biggest one in second array with smallest one with first array
+// and the biggest one in first array with smallest one with second array
+
+
+
+
+
 class Solution {
 public:
     int maxDistance(vector<vector<int>>& arrays) {
