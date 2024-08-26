@@ -17,31 +17,23 @@ public:
     }
 };
 */
-
 class Solution {
 public:
     vector<int> postorder(Node* root) {
-        if (!root) return {};  // If the root is null, return an empty list
-        
         vector<int> result;
-        stack<Node*> st;
-        st.push(root);
+        dfs(root, result);
+        return result;
+    }
+    
+    void dfs(Node* root, vector<int>& result) {
+        if (!root) return;
         
-        while (!st.empty()) {
-            Node* node = st.top();
-            st.pop();
-            
-            result.push_back(node->val);  // Add the node value to the result
-            
-            // Push all children onto the stack
-            for (Node* child : node->children) {
-                st.push(child);
-            }
+        // Visit all children first
+        for (Node* child : root->children) {
+            dfs(child, result);
         }
         
-        // Since we're simulating postorder traversal in reverse order, we need to reverse the result.
-        reverse(result.begin(), result.end());
-        
-        return result;
+        // Visit the current node
+        result.push_back(root->val);
     }
 };
